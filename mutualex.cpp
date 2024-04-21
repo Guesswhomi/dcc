@@ -54,3 +54,52 @@ int main() {
 
     return 0;
 }
+
+//output:
+/*enter number of sites 5
+
+enter who enters critical section 3
+
+enter timestamps 2
+
+enter site number 2
+
+enter timestamps 3
+
+enter site number 3
+
+enter timestamps 1
+
+enter site number 4
+
+site and timestamp
+1 0
+2 2
+3 3
+4 1
+5 0
+
+request from site 2
+1 replied
+3 replied
+4 delayed
+5 replied
+
+request from site 3
+1 replied
+2 delayed
+4 delayed
+5 replied
+
+request from site 4
+1 replied
+2 replied
+3 replied
+5 replied
+
+site 4 enterred critical section
+
+Similarly
+
+site 2 enterred critical section
+site 3 enterred critical section*/
