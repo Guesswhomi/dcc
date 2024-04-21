@@ -44,3 +44,37 @@ class BullyAlgo{
         }  
     }  
 } 
+
+//output
+//Enter total number of processes:
+//5
+//Status for process 1:
+//1
+//Priority of process 1:
+//3
+//Status for process 2:
+//1
+//Priority of process 2:
+//4
+//Status for process 3:
+//1
+//Priority of process 3:
+//2
+//Status for process 4:
+//1
+//Priority of process 4:
+//5
+//Status for process 5:
+//1
+//Priority of process 5:
+//1
+//Enter proces which will initiate election
+//3
+//Election message is sent from 3 to 1
+//Election message is sent from 1 to 2
+//Election message is sent from 2 to 4
+//Election message is sent from 1 to 4
+//Election message is sent from 3 to 2
+//Election message is sent from 2 to 4
+//Election message is sent from 3 to 4
+//After electing process the final coordinator is 4
