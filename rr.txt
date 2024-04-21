@@ -1,0 +1,89 @@
+//SampleServer.java
+
+import java.rmi.*;
+
+public interface SampleServer extends Remote
+{
+  public int sum(int a,int b) throws RemoteException;
+}
+
+
+
+
+
+//SampleServerImpl.java
+
+import java.rmi.*;
+import java.rmi.server.*;
+import java.rmi.registry.*;
+
+public class SampleServerImpl extends UnicastRemoteObject implements SampleServer {
+    SampleServerImpl() throws RemoteException {
+        super();
+    }
+
+    public int sum(int a, int b) throws RemoteException {
+        return (a + b);
+    }
+
+    public static void main(String args[]) {
+        try {
+            // create a local instance of the object
+            SampleServerImpl server = new SampleServerImpl();
+
+            // put the local instance in the registry
+            LocateRegistry.createRegistry(1098); // Create RMI registry on default port 1098
+            Naming.rebind("//localhost/SAMPLE-SERVER", server);
+
+            System.out.println("Server waiting.....");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.toString());
+        }
+    }
+}
+
+
+SampleClient.java
+
+import java.rmi.*;
+
+public class SampleClient {
+    public static void main(String[] args) {
+        try {
+            // get the remote object from the registry
+            String url = "//localhost/SAMPLE-SERVER";
+            SampleServer remoteObject = (SampleServer) Naming.lookup(url);
+
+            System.out.println("Got remote object");
+            System.out.println("1 + 2 = " + remoteObject.sum(1, 2));
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.toString());
+        }
+    }
+}
+
+
+
+
+
+
+
+//javac SampleServer.java SampleServerImpl.java SampleClient.java
+
+//rmiregistry
+
+//java SampleServerImpl
+
+//java SampleClient
+
+
+//output
+//Server waiting.....
+
+
+//Security Manager loaded
+//Got remote object
+//1 + 2 = 3
+
+
+
