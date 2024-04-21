@@ -1,60 +1,102 @@
+
 import java.util.Scanner;
-
-public class BullyElectionAlgorithm {
-    
-    static int numberOfProcesses;
-    static int[] priorities;
-    static int[] status;
-    static int coordinator;
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        // Input the total number of processes
-        System.out.println("Enter total number of processes:");
-        numberOfProcesses = scanner.nextInt();
-        
-        // Initialize arrays for priorities and status
-        priorities = new int[numberOfProcesses];
-        status = new int[numberOfProcesses];
-        
-        // Input status and priority for each process
-        for (int i = 0; i < numberOfProcesses; i++) {
-            System.out.println("Enter status for process " + (i + 1) + ":");
-            status[i] = scanner.nextInt();
-            
-            System.out.println("Enter priority for process " + (i + 1) + ":");
-            priorities[i] = scanner.nextInt();
+ 
+public class GG {
+   
+    class Pro {
+        int id;
+        boolean act;
+        Pro(int id)
+        {
+            this.id = id;
+            act = true;
         }
-        
-        // Input the process that will initiate the election
-        System.out.println("Enter process which will initiate election:");
-        int initiatingProcess = scanner.nextInt();
-        
-        scanner.close();
-
-        // Execute the Bully Election Algorithm
-        electCoordinator(initiatingProcess);
-        
-        // Print the final coordinator
-        System.out.println("After electing process, the final coordinator is Process " + coordinator);
     }
-
-    static void electCoordinator(int initiator) {
-        initiator--; // Adjust to array index
-        
-        coordinator = initiator + 1; // Assume the initiating process is the coordinator
-        
-        // Check for processes with higher priority and higher IDs
-        for (int i = initiator + 1; i < numberOfProcesses; i++) {
-            if (status[i] == 1 && priorities[i] > priorities[initiator]) {
-                //System.out.println("Election message is sent from Process " + (initiator + 1) + " to Process " + (i + 1));
-                System.out.println("Election message is sent from Process " + (initiator + 1) + " to Process " + (i + 1));
-                coordinator = i + 1; // Update coordinator
-                if (i + 1 != numberOfProcesses) { // If there are higher priority processes
-                    electCoordinator(i + 1); // Start election recursively from higher priority process
-                }
+    int TotalProcess;
+    Pro[] process;
+    public GG() { }
+    public void initialiseGG()
+    {
+        System.out.println("No of processes 5");
+        TotalProcess = 5;
+        process = new Pro[TotalProcess];
+        int i = 0;
+        while (i < process.length) {
+            process[i] = new Pro(i);
+            i++;
+        }
+    }
+    public void Election()
+    {
+        System.out.println("Process no "
+                           + process[FetchMaximum()].id
+                           + " fails");
+        process[FetchMaximum()].act = false;
+        System.out.println("Election Initiated by 2");
+        int initializedProcess = 2;
+ 
+        int old = initializedProcess;
+        int newer = old + 1;
+ 
+        while (true) {
+            if (process[newer].act) {
+                System.out.println(
+                    "Process " + process[old].id
+                    + " pass Election(" + process[old].id
+                    + ") to" + process[newer].id);
+                old = newer;
+            }
+ 
+            newer = (newer + 1) % TotalProcess;
+            if (newer == initializedProcess) {
+                break;
             }
         }
+ 
+        System.out.println("Process "
+                           + process[FetchMaximum()].id
+                           + " becomes coordinator");
+        int coord = process[FetchMaximum()].id;
+ 
+        old = coord;
+        newer = (old + 1) % TotalProcess;
+ 
+        while (true) {
+ 
+            if (process[newer].act) {
+                System.out.println(
+                    "Process " + process[old].id
+                    + " pass Coordinator(" + coord
+                    + ") message to process "
+                    + process[newer].id);
+                old = newer;
+            }
+            newer = (newer + 1) % TotalProcess;
+            if (newer == coord) {
+                System.out.println("End Of Election ");
+                break;
+            }
+        }
+    }
+    public int FetchMaximum()
+    {
+        int Ind = 0;
+        int maxId = -9999;
+        int i = 0;
+        while (i < process.length) {
+            if (process[i].act && process[i].id > maxId) {
+                maxId = process[i].id;
+                Ind = i;
+            }
+            i++;
+        }
+        return Ind;
+    }
+ 
+    public static void main(String arg[])
+    {
+        GG object = new GG();
+        object.initialiseGG();
+        object.Election();
     }
 }
